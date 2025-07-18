@@ -229,6 +229,8 @@ body {
   letter-spacing: 0.25px;
   margin-bottom: 30px;
   position: relative;
+      display: flex;
+    justify-content: center;
 }
 
 .center-heading {
