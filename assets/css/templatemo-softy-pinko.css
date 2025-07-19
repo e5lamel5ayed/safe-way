@@ -777,7 +777,7 @@ welcome
 
 .welcome-area .header-text {
   position: absolute;
-  top: 50%;
+  top: 60%;
   transform: translateY(-55%);
   text-align: center;
   width: 100%;
@@ -957,7 +957,7 @@ features
 .home-feature {
   padding-bottom: 0px;
   padding-top: 30px;
-  margin-top: -220px;
+  /* margin-top: -220px; */
   z-index: 9;
 }
 
