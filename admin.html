@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>لوحة التحكم</title>
+        <!-- Swiper CSS -->
+        <link rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+        <link rel="icon" type="image/png" href="assets/images/logo.png">
+
+        <link rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+        <link rel="stylesheet"
+            href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+        <style>
+    body {
+      font-family: 'Cairo', sans-serif;
+      direction: rtl;
+      text-align: right;
+    }
+
+    .sidebar {
+      width: 250px;
+      background-color: #343a40;
+      color: white;
+      position: fixed;
+      top: 0;
+      right: 0;
+      height: 100%;
+      padding-top: 20px;
+      transition: transform 0.3s ease;
+      z-index: 1000;
+    }
+
+    .sidebar.closed {
+      transform: translateX(100%);
+    }
+
+    .sidebar a {
+      color: white;
+      padding: 25px;
+      display: block;
+      font-size: 19px;
+      font-weight: bold;
+      text-decoration: none;
+    }
+
+    .sidebar a:hover {
+      background-color: #495057;
+    }
+
+    .toggle-btn {
+      position: fixed;
+      top: 20px;
+      right: 260px;
+      z-index: 1100;
+    }
+
+    .content {
+      margin-right: 270px;
+      padding: 20px;
+    }
+
+    @media (max-width: 768px) {
+      .sidebar {
+        transform: translateX(100%);
+      }
+
+      .sidebar.open {
+        transform: translateX(0);
+      }
+
+      .toggle-btn {
+        right: 20px;
+      }
+
+      .content {
+        margin-right: 20px;
+      }
+    }
+
+    section {
+      padding: 50px 0;
+      border-bottom: 1px solid #ccc;
+    }
+
+    h2 {
+      margin-bottom: 20px;
+    }
+.image-card {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  padding: 5px;
+  background: #f9f9f9;
+  height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.image-card img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: cover;
+  border-radius: 6px;
+}
+
+.delete-btn {
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  background: rgba(255, 0, 0, 0.7);
+  border: none;
+  color: white;
+  font-size: 16px;
+  padding: 2px 6px;
+  border-radius: 50%;
+  cursor: pointer;
+}
+.swiper-button-prev, .swiper-rtl .swiper-button-next {
+    left: var(--swiper-navigation-sides-offset, 10px);
+    right: auto;
+    background-color: #343a40;
+    padding: 25px;
+    border-radius: 10px;
+}
+  </style>
+    </head>
+    <body>
+
+        <!-- القائمة الجانبية -->
+        <div id="sidebar" class="sidebar">
+            <a href="#upload-images">📤 رفع صور الرحلات</a>
+            <a href="#upload-ads">📤 رفع الاعلانات</a>
+            <a href="#trip-settings">🚌 إعداد الرحلات</a>
+            <a href="#upload-comments">🖼️ رفع صور التعليقات</a>
+            <div style=" 
+                position: absolute;
+                bottom: 0;">
+                <a href="/index.html">🏠 الذهاب الى الصفحه الرئيسيه </a>
+            </div>
+        </div>
+
+        <!-- المحتوى الرئيسي -->
+        <div class="content">
+            <!-- رفع الصور -->
+            <section id="upload-images" class="container-fluid mt-5">
+                <h2 class="mb-4">📤 رفع صوره الرحلات</h2>
+
+                <!-- نموذج رفع صورة -->
+                <form id="image-upload-form" enctype="multipart/form-data"
+                    class="mb-4">
+                    <div class="form-group">
+                        <label for="image">اختر صورة</label>
+                        <input type="file" multiple
+                            class="form-control-file" id="image"
+                            name="image" required>
+                    </div>
+                    <button type="submit" id="upload-btn"
+                        class="btn btn-success">
+                        <span class="spinner-border spinner-border-sm d-none"
+                            role="status" aria-hidden="true"></span>
+                        <span class="btn-text">رفع الصور</span>
+                    </button>
+                </form>
+
+                <hr>
+
+                <!-- عرض الصور كسلايدر -->
+                <div class="swiper mySwiper">
+                    <div class="swiper-wrapper" id="image-gallery">
+                        <!-- الصور هتتحط هنا -->
+                    </div>
+
+                    <!-- أزرار التنقل -->
+                    <div class="swiper-button-next"></div>
+                    <div class="swiper-button-prev"></div>
+
+                    <!-- النقاط -->
+                    <div class="swiper-pagination"></div>
+                </div>
+
+            </section>
+
+            <section id="upload-ads">
+                <h2>رفع الاعلانات</h2>
+                <!-- نموذج إعداد الرحلات -->
+                <form id="ads-form" class="my-5 ">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="adsText">نص الاعلان</label>
+                                <input type="text" id="adsText"
+                                    class="form-control" required />
+                            </div>
+                        </div>
+                        <div
+                            class="col-md-4 d-flex justify-content-center align-items-center">
+                            <button type="submit"
+                                class="btn btn-success">إرسال</button>
+                        </div>
+                    </div>
+
+                </form>
+
+                <!-- جدول الرحلات -->
+                <table
+                    class="table table-bordered table-secondary table-hover table-striped">
+                    <thead>
+                        <tr>
+                            <th>نص الاعلان</th>
+                            <th>التحكم</th>
+
+                        </tr>
+                    </thead>
+                    <tbody id="ads-table-body">
+                        <!-- يتم تعبئة الصفوف تلقائيًا -->
+                    </tbody>
+                </table>
+
+            </section>
+            <section id="trip-settings">
+                <h2>🚌 أعداد الرحلات</h2>
+                <!-- نموذج إعداد الرحلات -->
+                <form id="trip-form" class="my-5 ">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="tripNumber"> عدد الرحلات</label>
+                                <input type="number" id="tripNumber"
+                                    class="form-control" required />
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="tripType">نوع الرحلة</label>
+                                <select id="tripType" class="form-control"
+                                    required>
+                                    <option value>-- اختر نوع الرحلة
+                                        --</option>
+                                    <option value="حج">حج</option>
+                                    <option value="عمره">عمره</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div
+                            class="col-md-4 d-flex justify-content-center align-items-center">
+                            <button type="submit"
+                                class="btn btn-success">إرسال</button>
+                        </div>
+                    </div>
+
+                </form>
+
+                <!-- جدول الرحلات -->
+                <table
+                    class="table table-bordered table-secondary table-hover table-striped">
+                    <thead>
+                        <tr>
+                            <th>رقم الرحلة</th>
+                            <th>نوع الرحلة</th>
+                            <th>التحكم</th>
+                        </tr>
+                    </thead>
+                    <tbody id="trip-table-body">
+                        <!-- يتم تعبئة الصفوف تلقائيًا -->
+                    </tbody>
+                </table>
+
+            </section>
+
+            <section id="upload-comments" class="container-fluid mt-5">
+                <h2 class="mb-4">🖼️ رفع صور التعليقات</h2>
+
+                <!-- نموذج رفع صورة -->
+                <form id="comment-image-upload-form"
+                    enctype="multipart/form-data" class="mb-4">
+                    <div class="form-group">
+                        <label for="comment-image">اختر صور التعليقات</label>
+                        <input type="file" multiple class="form-control-file"
+                            id="comment-image" name="Images" required>
+                    </div>
+                    <button type="submit" id="comment-upload-btn"
+                        class="btn btn-success">
+                        <span class="spinner-border spinner-border-sm d-none"
+                            role="status" aria-hidden="true"></span>
+                        <span class="btn-text">رفع الصور</span>
+                    </button>
+                </form>
+
+                <hr>
+
+                <!-- عرض الصور كسلايدر -->
+                <div class="swiper commentSwiper">
+                    <div class="swiper-wrapper" id="comment-image-gallery">
+                        <!-- الصور هتتحط هنا -->
+                    </div>
+
+                    <!-- أزرار التنقل -->
+                    <div class="swiper-button-next"></div>
+                    <div class="swiper-button-prev"></div>
+
+                    <!-- النقاط -->
+                    <div class="swiper-pagination"></div>
+                </div>
+            </section>
+
+        </div>
+        <script src="assets/js/trips.js"></script>
+        <!-- <script src="assets/js/ads.js"></script> -->
+        <script src="assets/js/tripImages.js"></script>
+        <script src="assets/js/commentImages.js"></script>
+        <!-- Swiper JS -->
+        <script
+            src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
+    </body>
+</html>
